@@ -1,6 +1,6 @@
 #pragma once
 
-#include <TFT_eSPI.h>
+#include <M5Core2.h>
 
 #define BUFLEN 2048
 #define GAIN   2000
