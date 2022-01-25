@@ -3,6 +3,8 @@
 #include <TFT_eSPI.h>
 #include <Button2.h>
 
+#include "esp_pm.h"
+
 #include "BluetoothA2DPSink.h"
 #include "SpectrumAnalyzer.h"
 
@@ -57,6 +59,12 @@ void read_data_stream(const uint8_t *data, uint32_t length)
 
 void setup() {
   Serial.begin(115200);
+
+  //highest clockspeed needed
+  esp_pm_lock_handle_t powerManagementLock;
+  esp_pm_lock_create(ESP_PM_CPU_FREQ_MAX, 0, "PowerManagementLock", &powerManagementLock);
+  esp_pm_lock_acquire(powerManagementLock);
+
   Serial.println("Starting ESP32 BT Player");
 
   tft.init();
