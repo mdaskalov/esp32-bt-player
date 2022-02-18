@@ -3,7 +3,7 @@
 #include "esp_pm.h"
 
 #include "BluetoothA2DPSink.h"
-#include "SpectrumAnalyzer.h"
+#include "SpectrumAnalyzer.hpp"
 
 #define TXT_HEIGHT  16
 
@@ -17,7 +17,7 @@
 int w,h;
 int wavX,wavY,wavH,spX,spY,spW,spH;
 BluetoothA2DPSink a2dp_sink;
-SpectrumAnalyzer *spec;
+SpectrumAnalyzer<M5Display> *spec;
 
 double divisor = 0;
 bool simulate = false;
@@ -80,7 +80,7 @@ void setup() {
   spH = h-spY;
 
   M5.Lcd.fillRect(0,0,w,h,TFT_BLACK);
-  spec = new SpectrumAnalyzer(M5.Lcd,MAXWAVE,MAXSPEC);
+  spec = new SpectrumAnalyzer<M5Display>(M5.Lcd,MAXWAVE,MAXSPEC);
   spec->waveView(wavX,wavY,wavH,TFT_WHITE,TFT_RED,TFT_BLACK);
   spec->specView(spX+2,spY+2,spW-4,spH-4,TFT_YELLOW,TFT_BLACK);
   M5.Lcd.drawString("Core2 BT Player", w / 2, h / 2);
@@ -128,13 +128,13 @@ void setup() {
   M5.BtnB.addHandler([](Event & e) {
     if (e == E_TAP) {
       Serial.println("play (btnB)...");
-      a2dp_sink.play();
+      //a2dp_sink.play();
       spec->clearWaveView();
       spec->clearSpecView();
     }
     if (e == E_DBLTAP) {
       Serial.println("stop (btnB)...");
-      a2dp_sink.stop();
+      //a2dp_sink.stop();
     }
   });
   M5.BtnC.addHandler([](Event & e) {
