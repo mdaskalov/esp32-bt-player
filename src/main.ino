@@ -8,8 +8,8 @@
 
   #define Graphics M5Display
 
-  #define	MAXWAVE     225
-  #define	MAXSPEC     63
+  #define	SAMPLES     225
+  #define	BARS        63
   #define WAVEHEIGHT  80
   #define SPEC_Y_OFS  15
 
@@ -24,7 +24,8 @@
   #define TXT_SIZE    2
 
   #define I2S_MODE    (I2S_MODE_MASTER | I2S_MODE_TX)
-  #define SPK_ENABLE  true
+  #define SPK_ENABLE  false
+  #define VOLUME      100
 
   #define btn1 M5.BtnA
   #define btn2 M5.BtnC
@@ -39,8 +40,8 @@
   #define BUTTON_1    35
   #define BUTTON_2    0
 
-  #define	MAXWAVE     220
-  #define	MAXSPEC     47
+  #define	SAMPLES     220
+  #define	BARS        47
   #define WAVEHEIGHT  49
   #define SPEC_Y_OFS  1
 
@@ -55,6 +56,7 @@
   #define TXT_SIZE    2
 
   #define I2S_MODE    (I2S_MODE_MASTER | I2S_MODE_TX | I2S_MODE_DAC_BUILT_IN)
+  #define VOLUME      100
 
   Button2 btn1(BUTTON_1);
   Button2 btn2(BUTTON_2);
@@ -172,7 +174,7 @@ void setup() {
   spW = w;
   spH = h-spY;
 
-  spec = new SpectrumAnalyzer<Graphics>(tft,MAXWAVE,MAXSPEC);
+  spec = new SpectrumAnalyzer<Graphics>(tft,SAMPLES,BARS);
   spec->waveView(wavX,wavY,wavH,TFT_WHITE,TFT_RED,TFT_BLACK);
   spec->specView(spX+2,spY+2,spW-4,spH-4,TFT_YELLOW,TFT_BLACK);
 
@@ -193,12 +195,12 @@ void setup() {
   a2dp_sink.set_stream_reader(read_data_stream);
 
   a2dp_sink.set_mono_downmix(true);
-  a2dp_sink.set_volume(80);
+  a2dp_sink.set_volume(VOLUME);
   a2dp_sink.set_i2s_config(i2s_config);
   a2dp_sink.start(BT_NAME);
 
   tft.fillRect(0,0,w,h,TFT_BLACK);
-  tft.drawRect(wavX-1,wavY-1,MAXWAVE+2,WAVEHEIGHT+2,TFT_WHITE);
+  tft.drawRect(wavX-1,wavY-1,SAMPLES+2,WAVEHEIGHT+2,TFT_WHITE);
   tft.drawRect(spX,spY,spW,spH,TFT_WHITE);
   spec->clearWaveView();
   spec->clearSpecView();
